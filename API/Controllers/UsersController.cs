@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore;
 //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
 namespace API.Controllers
 {
-   [Authorize]
+    [Authorize]
     public class UsersController : BaseApiController
     {
-        
-        
+
+
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
@@ -21,27 +21,26 @@ namespace API.Controllers
         {
             _mapper = mapper;
             _userRepository = userRepository;
-               
-        }    
 
-        [AllowAnonymous]
+        }
+
+        //[Authorize(Roles = "Admin")]
         [HttpGet]
-        public async  Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
         {
             var users = await _userRepository.GetMembersAsync();
-            
+
             return Ok(users);
         }
 
+        //[Authorize(Roles = "Member")]
         [HttpGet("{username}")]
+        //[HttpPost]
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
-           return await _userRepository.GetMemberAsync(username);
-
-           
+            return await _userRepository.GetMemberAsync(username);
         }
 
 
     }
-
 }
