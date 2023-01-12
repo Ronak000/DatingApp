@@ -35,10 +35,6 @@ namespace API.Data
                 .ToListAsync();
         }
 
-        public async Task<bool> SaveAllAcync()
-        {
-            return await _context.SaveChangesAsync() > 0;
-        }
 
         public void Update(AppUser user)
         {

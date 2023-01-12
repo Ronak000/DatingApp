@@ -13,22 +13,20 @@ namespace API.Controllers
     public class UsersController : BaseApiController
     {
 
-
-        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _uow;
 
-        public UsersController(IUserRepository userRepository, IMapper mapper)
+        public UsersController(IUnitOfWork uow, IMapper mapper)
         {
+            _uow = uow;
             _mapper = mapper;
-            _userRepository = userRepository;
-
         }
 
         //[Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
         {
-            var users = await _userRepository.GetMembersAsync();
+            var users = await _uow.UserRepository.GetMembersAsync();
 
             return Ok(users);
         }
@@ -38,7 +36,7 @@ namespace API.Controllers
         //[HttpPost]
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
-            return await _userRepository.GetMemberAsync(username);
+            return await _uow.UserRepository.GetMemberAsync(username);
         }
 
 
